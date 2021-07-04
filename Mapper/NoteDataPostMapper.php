@@ -68,7 +68,8 @@ class NoteDataPostMapper
                     NoteDataInterface::CONTACT_NAME => $params['name'],
                     NoteDataInterface::PHONE => $params['telephone'],
                     NoteDataInterface::MESSAGE => $params['comment'],
-                    NoteDataInterface::CUSTOMER_ID => $this->customerSession->getCustomerId()
+                    NoteDataInterface::CUSTOMER_ID => $this->customerSession->getCustomerId(),
+                    NoteDataInterface::FORM_ID => $params['form_id'],
                 ]
             ]
         );

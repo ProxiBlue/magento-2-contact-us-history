@@ -15,4 +15,5 @@ type Note @doc(description: "The Note") {
     message: String @doc(description: "Message")
     phone: String @doc(description: "Author phone")
     created_date: String @doc(description: "Created date")
+    form_id: String @doc(description: "Form ID")
 }

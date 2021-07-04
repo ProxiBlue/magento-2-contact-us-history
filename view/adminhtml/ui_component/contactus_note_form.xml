@@ -74,5 +74,19 @@
                 <label translate="true">Note</label>
             </settings>
         </field>
+        <field name="form_id" formElement="input" sortOrder="55">
+            <settings>
+                <disabled>true</disabled>
+                <dataType>text</dataType>
+                <label translate="true">Form ID</label>
+            </settings>
+        </field>
+        <field name="created_date" formElement="input" sortOrder="60">
+            <settings>
+                <disabled>true</disabled>
+                <dataType>datetime</dataType>
+                <label translate="true">Created Date</label>
+            </settings>
+        </field>
     </fieldset>
 </form>

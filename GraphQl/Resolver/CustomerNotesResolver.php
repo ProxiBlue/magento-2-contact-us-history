@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace VitaliyBoyko\ContactUsHistory\GraphQl\Resolver;
 
-use Magento\CustomerGraphQl\Model\Customer\CheckCustomerAccount;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -26,11 +25,6 @@ class CustomerNotesResolver implements ResolverInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var CheckCustomerAccount
-     */
-    private $checkCustomerAccount;
-
-    /**
      * @var GetNotesListInterface
      */
     private $getNotesList;
@@ -42,18 +36,15 @@ class CustomerNotesResolver implements ResolverInterface
 
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param CheckCustomerAccount $checkCustomerAccount
      * @param GetNotesListInterface $getNotesList
      * @param FilterBuilder $filterBuilder
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        CheckCustomerAccount $checkCustomerAccount,
         GetNotesListInterface $getNotesList,
         FilterBuilder $filterBuilder
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->checkCustomerAccount = $checkCustomerAccount;
         $this->getNotesList = $getNotesList;
         $this->filterBuilder = $filterBuilder;
     }
@@ -68,7 +59,7 @@ class CustomerNotesResolver implements ResolverInterface
         array $value = null,
         array $args = null
     ) {
-        $this->checkCustomerAccount->execute($context->getUserId(), $context->getUserType());
+
 
         $this->filterBuilder->setField(NoteDataInterface::CUSTOMER_ID);
         $this->filterBuilder->setConditionType('eq');
@@ -89,6 +80,7 @@ class CustomerNotesResolver implements ResolverInterface
                 'message' => $note,
                 'phone' => $note,
                 'created_date' => $note,
+                'form_id' => $note,
             ];
         }
 

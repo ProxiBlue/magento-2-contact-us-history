@@ -22,6 +22,7 @@ interface NoteDataInterface
     const PHONE = 'phone';
     const CREATED_DATE = 'created_date';
     const CUSTOMER_ID = 'customer_id';
+    const FORM_ID = 'form_id';
     /**#@-*/
 
     /**

@@ -132,6 +132,20 @@
                 <visible>true</visible>
             </settings>
         </column>
+        <column name="form_id" sortOrder="80">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Form ID</label>
+                <visible>true</visible>
+            </settings>
+        </column>
+        <column name="created_date" sortOrder="80">
+            <settings>
+                <filter>date</filter>
+                <label translate="true">Created Date</label>
+                <visible>true</visible>
+            </settings>
+        </column>
         <actionsColumn name="actions" class="VitaliyBoyko\ContactUsHistory\Ui\Component\Listing\Column\ViewAction" sortOrder="200">
             <settings>
                 <indexField>note_id</indexField>

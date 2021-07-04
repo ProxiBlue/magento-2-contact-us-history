@@ -14,8 +14,8 @@
         <column xsi:type="varchar" name="phone" nullable="true" length="255"/>
         <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="true" identity="false"/>
         <column xsi:type="timestamp" name="created_date" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
-
-        <constraint xsi:type="primary" name="PRIMARY">
+        <column xsi:type="varchar" name="form_id" nullable="false" length="50"/>
+        <constraint xsi:type="primary" referenceId="CONTACT_HISTORY_PRIMARY">
             <column name="note_id"/>
         </constraint>
     </table>

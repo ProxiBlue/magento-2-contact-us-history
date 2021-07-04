@@ -59,7 +59,8 @@ class SaveNotes
             NoteDataInterface::CONTACT_NAME,
             NoteDataInterface::MESSAGE,
             NoteDataInterface::EMAIL,
-            NoteDataInterface::CUSTOMER_ID
+            NoteDataInterface::CUSTOMER_ID,
+            NoteDataInterface::FORM_ID
         ]);
         $valuesSql = $this->buildValuesSqlPart($notes);
         $onDuplicateSql = $this->buildOnDuplicateSqlPart([
@@ -67,7 +68,8 @@ class SaveNotes
             NoteDataInterface::CONTACT_NAME,
             NoteDataInterface::MESSAGE,
             NoteDataInterface::EMAIL,
-            NoteDataInterface::CUSTOMER_ID
+            NoteDataInterface::CUSTOMER_ID,
+            NoteDataInterface::FORM_ID
         ]);
         $bind = $this->getSqlBindData($notes);
         $insertSql = sprintf(
@@ -98,7 +100,7 @@ class SaveNotes
      */
     private function buildValuesSqlPart(array $notes): string
     {
-        $sql = rtrim(str_repeat('(?, ?, ?, ?, ?, ?), ', count($notes)), ', ');
+        $sql = rtrim(str_repeat('(?, ?, ?, ?, ?, ?, ?), ', count($notes)), ', ');
         return $sql;
     }
 
@@ -118,7 +120,8 @@ class SaveNotes
                 $note->getContactName(),
                 $note->getMessage(),
                 $note->getEmail(),
-                $note->getCustomerId()
+                $note->getCustomerId(),
+                $note->getFormId()
             ]);
         }
         return $bind;
