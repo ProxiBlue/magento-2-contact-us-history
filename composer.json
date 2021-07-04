@@ -2,7 +2,7 @@
   "name": "vitaliyboyko/contact-us-history",
   "description": "N/A",
   "require": {
-    "php": "~7.1.0|~7.2.0",
+    "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0",
     "magento/module-contact": "*"
   },
   "type": "magento2-module",
