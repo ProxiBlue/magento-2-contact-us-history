@@ -4,144 +4,142 @@
  */
 declare(strict_types=1);
 
-namespace VitaliyBoyko\ContactUsHistory\Api\Data;
+namespace VitaliyBoyko\ContactUsHistory\Data;
+
+use Magento\Framework\DataObject;
+use VitaliyBoyko\ContactUsHistory\Api\Data\NoteDataInterface;
 
 /**
- * Note DTO
- * @api
+ * @inheritdoc
  */
-interface NoteDataInterface
+class NoteData extends DataObject implements NoteDataInterface
 {
-    /**#@+
-     * Constants for keys of data array. Identical to the name of the getter in snake case
+    /**
+     * @inheritdoc
      */
-    const NOTE_ID = 'note_id';
-    const CONTACT_NAME = 'contact_name';
-    const EMAIL = 'email';
-    const MESSAGE = 'message';
-    const PHONE = 'phone';
-    const CREATED_DATE = 'created_date';
-    const CUSTOMER_ID = 'customer_id';
-    const FORM_ID = 'form_id';
-    /**#@-*/
+    public function getNoteId(): ?int
+    {
+        return $this->getData(self::NOTE_ID) === null ?
+            null:
+            (int)$this->getData(self::NOTE_ID);
+    }
 
     /**
-     * Get note id
-     *
-     * @return null|int
+     * @inheritdoc
      */
-    public function getNoteId(): ?int;
+    public function setNoteId(int $noteId): void
+    {
+        $this->setData(self::NOTE_ID, $noteId);
+    }
 
     /**
-     * Set note id
-     *
-     * @param int $noteId
-     * @return void
+     * @inheritdoc
      */
-    public function setNoteId(int $noteId): void;
+    public function getEmail(): ?string
+    {
+        return $this->getData(self::EMAIL);
+    }
 
     /**
-     * Get note email
-     *
-     * @return null|string
+     * @inheritdoc
      */
-    public function getEmail(): ?string;
+    public function setEmail(string $email): void
+    {
+        $this->setData(self::EMAIL, $email);
+    }
 
     /**
-     * Set note email
-     *
-     * @param string $email
-     * @return void
+     * @inheritdoc
      */
-    public function setEmail(string $email): void;
+    public function getContactName(): ?string
+    {
+        return $this->getData(self::CONTACT_NAME);
+    }
 
     /**
-     * Get note contact name
-     *
-     * @return null|string
+     * @inheritdoc
      */
-    public function getContactName(): ?string;
+    public function setContactName(string $contactName): void
+    {
+        $this->setData(self::CONTACT_NAME, $contactName);
+    }
 
     /**
-     * Set note contact name
-     *
-     * @param string $contactName
-     * @return void
+     * @inheritdoc
      */
-    public function setContactName(string $contactName): void;
+    public function getMessage(): ?string
+    {
+        return $this->getData(self::MESSAGE);
+    }
 
     /**
-     * Get note message
-     *
-     * @return null|string
+     * @inheritdoc
      */
-    public function getMessage(): ?string;
+    public function setMessage(string $message): void
+    {
+        $this->setData(self::MESSAGE, $message);
+    }
 
     /**
-     * Set note message
-     *
-     * @param string $message
-     * @return void
+     * @inheritdoc
      */
-    public function setMessage(string $message): void;
+    public function getPhone(): ?string
+    {
+        return $this->getData(self::PHONE);
+    }
 
     /**
-     * Get note phone number
-     *
-     * @return null|string
+     * @inheritdoc
      */
-    public function getPhone(): ?string;
+    public function setPhone(?string $phone): void
+    {
+        $this->setData(self::PHONE, $phone);
+    }
 
     /**
-     * Set note phone number
-     *
-     * @param string|null $phone
-     * @return void
+     * @inheritdoc
      */
-    public function setPhone(?string $phone):void;
+    public function getCreatedDate(): ?string
+    {
+        return $this->getData(self::CREATED_DATE);
+    }
 
     /**
-     * Get created date
-     *
-     * @return null|string
+     * @inheritdoc
      */
-    public function getCreatedDate(): ?string;
+    public function setCreatedDate(string $createdDate): void
+    {
+        $this->setData(self::CREATED_DATE, $createdDate);
+    }
+
+    public function getFormId(): ?string
+    {
+        return $this->getData(self::FORM_ID);
+    }
 
     /**
-     * Set created date
-     *
-     * @param string $createdDate
-     * @return void
+     * @inheritdoc
      */
-    public function setCreatedDate(string $createdDate): void;
+    public function setFormId(string $formId): void
+    {
+        $this->setData(self::FORM_ID, $formId);
+    }
 
     /**
-     * Get form id
-     *
-     * @return null|string
+     * @inheritdoc
      */
-    public function getFormId(): ?string;
+    public function getCustomerId(): ?int
+    {
+        return $this->getData(self::CUSTOMER_ID) === null ?
+            null:
+            (int)$this->getData(self::CUSTOMER_ID);
+    }
 
     /**
-     * Set FormID
-     *
-     * @param string $formID
-     * @return void
+     * @inheritdoc
      */
-    public function setFormId(string $formID): void;
-
-    /**
-     * Get customer id
-     *
-     * @return int|null
-     */
-    public function getCustomerId(): ?int;
-
-    /**
-     * Set customer id
-     *
-     * @param int|null $customerId
-     * @return void
-     */
-    public function setCustomerId(?int $customerId): void;
+    public function setCustomerId(?int $customerId): void
+    {
+        $this->setData(self::CUSTOMER_ID, $customerId);
+    }
 }
