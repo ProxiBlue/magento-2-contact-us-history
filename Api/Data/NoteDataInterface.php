@@ -116,6 +116,22 @@ interface NoteDataInterface
     public function setCreatedDate(string $createdDate): void;
 
     /**
+     * Get form id
+     *
+     * @return null|string
+     */
+    public function getFormId(): ?string;
+
+    /**
+     * Set form id
+     *
+     * @param string $formId
+     * @return void
+     */
+    public function setFormId(string $formId): void;
+
+    
+    /**
      * Get customer id
      *
      * @return int|null
