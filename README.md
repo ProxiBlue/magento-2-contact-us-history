@@ -18,3 +18,9 @@ To install module type:
   `php bin/magento setup:upgrade`
 
 After install you can found grid in adminpanel - Marketing / Communications / Contact form notes
+
+Added in this version:
+
+* form_id: hidden field in forms to populate and filter by forms, example: contact us, quote form etc.
+* form_data: json form data to capture any custom form fields.
+* 2.4 compatibility
