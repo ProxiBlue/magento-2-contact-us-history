@@ -125,6 +125,19 @@ class NoteData extends DataObject implements NoteDataInterface
         $this->setData(self::FORM_ID, $formId);
     }
 
+    public function getFormData(): ?string
+    {
+        return $this->getData(self::FORM_DATA);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setFormData(string $formData): void
+    {
+        $this->setData(self::FORM_DATA, $formData);
+    }
+
     /**
      * @inheritdoc
      */

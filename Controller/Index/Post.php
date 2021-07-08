@@ -83,6 +83,10 @@ class Post extends Index
         }
         try {
             $params = $this->_request->getParams();
+            if(!isset($params['telephone_preferred'])) {
+                $params['telephone_preferred'] = 'No';
+            }
+            $params['form_data'] = $params;
             $this->sendEmail($params);
             $this->noteProcessor->execute();
             $this->messageManager->addSuccessMessage(

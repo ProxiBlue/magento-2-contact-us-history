@@ -8,6 +8,7 @@
 
     <preference for="Magento\Contact\Controller\Index\Post" type="VitaliyBoyko\ContactUsHistory\Controller\Index\Post" />
 
+
     <preference for="VitaliyBoyko\ContactUsHistory\Api\Data\NoteDataInterface" type="VitaliyBoyko\ContactUsHistory\Data\NoteData" />
     <preference for="VitaliyBoyko\ContactUsHistory\Api\Command\DeleteNotesInterface" type="VitaliyBoyko\ContactUsHistory\Command\DeleteNotesCommand" />
     <preference for="VitaliyBoyko\ContactUsHistory\Api\Command\SaveNotesInterface" type="VitaliyBoyko\ContactUsHistory\Command\SaveNotesCommand" />
@@ -18,4 +19,10 @@
         <plugin name="admin_notify_about_new_note"
                 type="VitaliyBoyko\ContactUsHistory\Plugin\Model\Note\Command\NoteProcessorAdminNotificationPlugin"/>
     </type>
+
+    <type name="Magento\Contact\Block\ContactForm">
+        <plugin name="vitaliyboyko_contact-us-history_block_form" type="VitaliyBoyko\ContactUsHistory\Plugin\Block\ContactForm"/>
+    </type>
+
+
 </config>

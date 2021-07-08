@@ -23,6 +23,7 @@ interface NoteDataInterface
     const CREATED_DATE = 'created_date';
     const CUSTOMER_ID = 'customer_id';
     const FORM_ID = 'form_id';
+    const FORM_DATA = 'form_data';
     /**#@-*/
 
     /**
@@ -130,7 +131,22 @@ interface NoteDataInterface
      */
     public function setFormId(string $formId): void;
 
-    
+    /**
+     * Get form id
+     *
+     * @return null|string
+     */
+    public function getFormData(): ?string;
+
+    /**
+     * Set form id
+     *
+     * @param string $formId
+     * @return void
+     */
+    public function setFormData(string $formId): void;
+
+
     /**
      * Get customer id
      *
