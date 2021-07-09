@@ -24,3 +24,6 @@ Added in this version:
 * form_id: hidden field in forms to populate and filter by forms, example: contact us, quote form etc.
 * form_data: json form data to capture any custom form fields.
 * 2.4 compatibility
+* Ability to send custom email, using form_id to match up with email name in admin
+* Display teh form_data field in admin view
+* Ability to use an alternative form template by passing a ?form=FORM_ID param, and then use template FORM_ID.phtml is display
