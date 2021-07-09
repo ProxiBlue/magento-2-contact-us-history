@@ -86,11 +86,10 @@ class Post extends Index
             if(!isset($params['telephone_preferred'])) {
                 $params['telephone_preferred'] = 'No';
             }
-            $params['form_data'] = $params;
             $this->sendEmail($params);
             $this->noteProcessor->execute();
             $this->messageManager->addSuccessMessage(
-                __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
+                __('Thanks for contacting us. We\'ll respond to you very soon.')
             );
             $this->dataPersistor->clear('contact_us');
         } catch (LocalizedException $e) {
@@ -103,7 +102,11 @@ class Post extends Index
             );
             $this->dataPersistor->set('contact_us', $this->getRequest()->getParams());
         }
-        return $this->resultRedirectFactory->create()->setPath('contact/index');
+        if(isset($params['form_id'])){
+            return $this->resultRedirectFactory->create()->setPath('contact?form=' . $params['form_id']);
+        } else {
+            return $this->resultRedirectFactory->create()->setPath('contact/index');
+        }
     }
 
     /**

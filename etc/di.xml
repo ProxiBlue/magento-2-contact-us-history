@@ -7,6 +7,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <preference for="Magento\Contact\Controller\Index\Post" type="VitaliyBoyko\ContactUsHistory\Controller\Index\Post" />
+    <preference for="Magento\Contact\Block\ContactForm" type="VitaliyBoyko\ContactUsHistory\Block\ContactForm" />
+    <preference for="Magento\Contact\Model\Mail" type="VitaliyBoyko\ContactUsHistory\Model\Mail" />
 
 
     <preference for="VitaliyBoyko\ContactUsHistory\Api\Data\NoteDataInterface" type="VitaliyBoyko\ContactUsHistory\Data\NoteData" />
