@@ -65,11 +65,11 @@ class NoteDataPostMapper
             [
                 'data' => [
                     NoteDataInterface::EMAIL => $params['email'],
-                    NoteDataInterface::CONTACT_NAME => $params['name'],
-                    NoteDataInterface::PHONE => $params['telephone'],
+                    NoteDataInterface::CONTACT_NAME => $params['name'] ?? 'Unknown',
+                    NoteDataInterface::PHONE => $params['telephone'] ?? 'Unknown',
                     NoteDataInterface::MESSAGE => $params['comment'],
                     NoteDataInterface::CUSTOMER_ID => $this->customerSession->getCustomerId(),
-                    NoteDataInterface::FORM_ID => $params['form_id'],
+                    NoteDataInterface::FORM_ID => $params['form_id'] ?? '',
                     NoteDataInterface::FORM_DATA => $params['form_data'] = $params,
                 ]
             ]

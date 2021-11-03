@@ -29,7 +29,7 @@ class ContactForm
     public function beforeSetTemplate(\Magento\Contact\Block\ContactForm $subject, $param)
     {
         $params = $this->getParams();
-        if(isset($params['form'])) {
+        if(isset($params['form']) && $subject->getNameInLayout() != 'footer-form') {
             $params['form'] = str_replace('/','', $params['form']);
             $parts = explode('-', $params['form']);
             $title = implode(' ', $parts);
