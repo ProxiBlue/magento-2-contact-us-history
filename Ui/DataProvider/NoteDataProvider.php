@@ -18,16 +18,6 @@ use Magento\Ui\DataProvider\SearchResultFactory;
 class NoteDataProvider extends DataProvider
 {
     /**
-     * @var GetNotesListInterface
-     */
-    private $getNotesList;
-
-    /**
-     * @var SearchResultFactory
-     */
-    private $searchResultFactory;
-
-    /**
      * NoteDataProvider constructor.
      * @param string $name
      * @param string $primaryFieldName
@@ -49,8 +39,8 @@ class NoteDataProvider extends DataProvider
         SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
-        GetNotesListInterface $getNotesList,
-        SearchResultFactory $searchResultFactory,
+        private readonly GetNotesListInterface $getNotesList,
+        private readonly SearchResultFactory $searchResultFactory,
         array $meta = [],
         array $data = []
     ) {
@@ -65,8 +55,6 @@ class NoteDataProvider extends DataProvider
             $meta,
             $data
         );
-        $this->searchResultFactory = $searchResultFactory;
-        $this->getNotesList = $getNotesList;
     }
 
     /**

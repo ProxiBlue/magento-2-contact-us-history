@@ -17,33 +17,14 @@ use VitaliyBoyko\ContactUsHistory\Service\Validation\ValidateNote;
  */
 class SaveNotes
 {
-    /**
-     * @var ResourceConnection
-     */
-    private $resourceConnection;
-
-    /**
-     * @var ValidateNote
-     */
-    private $validateNote;
-
-    /**
-     * @param ResourceConnection $resourceConnection
-     * @param ValidateNote $validateNote
-     */
-    public function __construct(
-        ResourceConnection $resourceConnection,
-        ValidateNote $validateNote
-    ) {
-        $this->resourceConnection = $resourceConnection;
-        $this->validateNote = $validateNote;
+    public function __construct(private readonly ResourceConnection $resourceConnection, private readonly ValidateNote $validateNote)
+    {
     }
 
     /**
      * Multiple save notes
      *
      * @param NoteDataInterface[] $notes
-     * @return void
      * @throws LocalizedException
      */
     public function execute(array $notes): void
@@ -85,21 +66,16 @@ class SaveNotes
         $connection->query($insertSql, $bind);
     }
 
-    /**
-     * @param array $columns
-     * @return string
-     */
     private function buildColumnsSqlPart(array $columns): string
     {
         $connection = $this->resourceConnection->getConnection();
-        $processedColumns = array_map([$connection, 'quoteIdentifier'], $columns);
+        $processedColumns = array_map($connection->quoteIdentifier(...), $columns);
         $sql = implode(', ', $processedColumns);
         return $sql;
     }
 
     /**
      * @param NoteDataInterface[] $notes
-     * @return string
      */
     private function buildValuesSqlPart(array $notes): string
     {
@@ -109,7 +85,6 @@ class SaveNotes
 
     /**
      * @param NoteDataInterface[] $notes
-     * @return array
      * @throws LocalizedException
      */
     private function getSqlBindData(array $notes): array
@@ -125,16 +100,12 @@ class SaveNotes
                 $note->getEmail(),
                 $note->getCustomerId(),
                 $note->getFormId(),
-                json_encode($note->getData())
+                json_encode($note->getData(), JSON_THROW_ON_ERROR)
             ]);
         }
         return $bind;
     }
 
-    /**
-     * @param array $fields
-     * @return string
-     */
     private function buildOnDuplicateSqlPart(array $fields): string
     {
         $connection = $this->resourceConnection->getConnection();

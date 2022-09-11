@@ -15,47 +15,14 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 class NoteDataPostMapper
 {
     /**
-     * @var NoteDataInterfaceFactory
-     */
-    private $noteInterfaceFactory;
-
-    /**
-     * @var DateTime
-     */
-    private $dateTime;
-
-    /**
-     * @var Session
-     */
-    private $customerSession;
-
-    /**
-     * @var RequestInterface
-     */
-    private $request;
-
-    /**
      * @param NoteDataInterfaceFactory $noteInterfaceFactory
-     * @param DateTime $dateTime
-     * @param Session $customerSession
-     * @param RequestInterface $request
      */
-    public function __construct(
-        NoteDataInterfaceFactory $noteInterfaceFactory,
-        DateTime $dateTime,
-        Session $customerSession,
-        RequestInterface $request
-    ) {
-        $this->noteInterfaceFactory = $noteInterfaceFactory;
-        $this->dateTime = $dateTime;
-        $this->customerSession = $customerSession;
-        $this->request = $request;
+    public function __construct(private readonly NoteDataInterfaceFactory $noteInterfaceFactory, private readonly DateTime $dateTime, private readonly Session $customerSession, private readonly RequestInterface $request)
+    {
     }
 
     /**
      * Map data model
-     *
-     * @return NoteDataInterface
      */
     public function map(): NoteDataInterface
     {

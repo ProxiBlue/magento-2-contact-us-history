@@ -1,0 +1,1308 @@
+
+27 files with changes
+=====================
+
+1) Ui/DataProvider/NoteDataProvider.php:17
+
+    ---------- begin diff ----------
+@@ @@
+ class NoteDataProvider extends DataProvider
+ {
+     /**
+-     * @var GetNotesListInterface
+-     */
+-    private $getNotesList;
+-
+-    /**
+-     * @var SearchResultFactory
+-     */
+-    private $searchResultFactory;
+-
+-    /**
+      * NoteDataProvider constructor.
+      * @param string $name
+      * @param string $primaryFieldName
+@@ @@
+         SearchCriteriaBuilder $searchCriteriaBuilder,
+         RequestInterface $request,
+         FilterBuilder $filterBuilder,
+-        GetNotesListInterface $getNotesList,
+-        SearchResultFactory $searchResultFactory,
++        private readonly GetNotesListInterface $getNotesList,
++        private readonly SearchResultFactory $searchResultFactory,
+         array $meta = [],
+         array $data = []
+     ) {
+@@ @@
+             $meta,
+             $data
+         );
+-        $this->searchResultFactory = $searchResultFactory;
+-        $this->getNotesList = $getNotesList;
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+2) Ui/Component/Listing/Column/ViewAction.php:13
+
+    ---------- begin diff ----------
+@@ @@
+ class ViewAction extends Column
+ {
+     /**
+-     * @var UrlInterface
+-     */
+-    private $urlBuilder;
+-
+-    /**
+      * @param ContextInterface $context
+      * @param UiComponentFactory $uiComponentFactory
+      * @param UrlInterface $urlBuilder
+@@ @@
+     public function __construct(
+         ContextInterface $context,
+         UiComponentFactory $uiComponentFactory,
+-        UrlInterface $urlBuilder,
++        private readonly UrlInterface $urlBuilder,
+         array $components = [],
+         array $data = []
+     ) {
+-        $this->urlBuilder = $urlBuilder;
+         parent::__construct($context, $uiComponentFactory, $components, $data);
+     }
+
+     /**
+-     * @param array $dataSource
+      * @return array
+      */
+     public function prepareDataSource(array $dataSource)
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+3) Service/Validation/ValidateNote.php:14
+
+    ---------- begin diff ----------
+@@ @@
+ class ValidateNote
+ {
+     /**
+-     * @param NoteDataInterface $noteData
+      * @throws LocalizedException
+      */
+     public function execute(NoteDataInterface $noteData)
+@@ @@
+         if (trim($noteData->getMessage()) === '') {
+             throw new LocalizedException(__('Message is missing'));
+         }
+-        if (false === \strpos($noteData->getEmail(), '@')) {
++        if (!str_contains($noteData->getEmail(), '@')) {
+             throw new LocalizedException(__('Invalid email address'));
+         }
+     }
+    ----------- end diff -----------
+
+Applied rules:
+ * UnionTypesRector
+ * StrContainsRector (https://externals.io/message/108562 https://github.com/php/php-src/pull/5179)
+
+
+4) Service/ProcessNoteService.php:13
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class ProcessNoteService
+ {
+-    /**
+-     * @var SaveNotesInterface
+-     */
+-    private $notesSave;
+-
+-    /**
+-     * @var NoteDataPostMapper
+-     */
+-    private $noteDataPostMapper;
+-
+-    /**
+-     * @param SaveNotesInterface $notesSave
+-     * @param NoteDataPostMapper $noteDataPostMapper
+-     */
+-    public function __construct(
+-        SaveNotesInterface $notesSave,
+-        NoteDataPostMapper $noteDataPostMapper
+-    ) {
+-        $this->notesSave = $notesSave;
+-        $this->noteDataPostMapper = $noteDataPostMapper;
++    public function __construct(private readonly SaveNotesInterface $notesSave, private readonly NoteDataPostMapper $noteDataPostMapper)
++    {
+     }
+
+     /**
+      * Save Note Post
+      *
+-     * @return void
+      * @throws \Magento\Framework\Exception\CouldNotSaveException
+      * @throws \Magento\Framework\Exception\InputException
+      * @throws \Magento\Framework\Validation\ValidationException
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+5) Query/GetNotesList.php:20
+
+    ---------- begin diff ----------
+@@ @@
+ class GetNotesList implements GetNotesListInterface
+ {
+     /**
+-     * @var CollectionProcessorInterface
+-     */
+-    private $collectionProcessor;
+-
+-    /**
+-     * @var NoteCollectionFactory
+-     */
+-    private $noteCollectionFactory;
+-
+-    /**
+-     * @var SearchResultsInterfaceFactory
+-     */
+-    private $searchResultsFactory;
+-
+-    /**
+-     * @var NotesDataMapper
+-     */
+-    private $noteDataMapper;
+-
+-    /**
+-     * @param CollectionProcessorInterface $collectionProcessor
+      * @param NoteCollectionFactory $noteCollectionFactory
+      * @param SearchResultsInterfaceFactory $searchResultsFactory
+-     * @param NotesDataMapper $noteDataMapper
+      */
+-    public function __construct(
+-        CollectionProcessorInterface $collectionProcessor,
+-        NoteCollectionFactory $noteCollectionFactory,
+-        SearchResultsInterfaceFactory $searchResultsFactory,
+-        NotesDataMapper $noteDataMapper
+-    ) {
+-        $this->collectionProcessor = $collectionProcessor;
+-        $this->noteDataMapper = $noteDataMapper;
+-        $this->noteCollectionFactory = $noteCollectionFactory;
+-        $this->searchResultsFactory = $searchResultsFactory;
++    public function __construct(private readonly CollectionProcessorInterface $collectionProcessor, private readonly NoteCollectionFactory $noteCollectionFactory, private readonly SearchResultsInterfaceFactory $searchResultsFactory, private readonly NotesDataMapper $noteDataMapper)
++    {
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+6) Query/GetNoteById.php:17
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class GetNoteById implements GetNoteByIdInterface
+ {
+-    /**
+-     * @var GetNotesListInterface
+-     */
+-    private $getNotesList;
+-
+-    /**
+-     * @var SearchCriteriaBuilder
+-     */
+-    private $searchCriteriaBuilder;
+-
+-    /**
+-     * @param GetNotesListInterface $getNotesList
+-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+-     */
+-    public function __construct(
+-        GetNotesListInterface $getNotesList,
+-        SearchCriteriaBuilder $searchCriteriaBuilder
+-    ) {
+-        $this->getNotesList = $getNotesList;
+-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
++    public function __construct(private readonly GetNotesListInterface $getNotesList, private readonly SearchCriteriaBuilder $searchCriteriaBuilder)
++    {
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+7) Plugin/Model/Note/Command/NoteProcessorAdminNotificationPlugin.php:14
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class NoteProcessorAdminNotificationPlugin
+ {
+-    /**
+-     * @var NotifierPool
+-     */
+-    private $notifier;
+-    /**
+-     * @var RequestInterface
+-     */
+-    private $request;
+-
+-    /**
+-     * @param NotifierPool $notifier
+-     * @param RequestInterface $request
+-     */
+-    public function __construct(
+-        NotifierPool $notifier,
+-        RequestInterface $request
+-    ) {
+-        $this->notifier = $notifier;
+-        $this->request = $request;
++    public function __construct(private readonly NotifierPool $notifier, private readonly RequestInterface $request)
++    {
+     }
+
+     /**
+-     * @param ProcessNoteService $subject
+      * @return void
+      */
+     public function afterExecute(ProcessNoteService $subject)
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+8) Plugin/Block/ContactForm.php:9
+
+    ---------- begin diff ----------
+@@ @@
+ class ContactForm
+ {
+
+-    protected $request;
+-
+-    public function __construct(
+-        RequestInterface $request
+-    ) {
+-       $this->request = $request;
++    public function __construct(protected RequestInterface $request)
++    {
+     }
+
+     public function beforeSetTemplate(\Magento\Contact\Block\ContactForm $subject, $param)
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+
+
+9) Model/ResourceModel/NoteResource.php:13
+
+    ---------- begin diff ----------
+@@ @@
+     /**
+      * Table name
+      */
+-    const TABLE_NAME_NOTES = 'vb_contact_us_history';
++    final const TABLE_NAME_NOTES = 'vb_contact_us_history';
+
+     /**
+      * @inheritdoc
+    ----------- end diff -----------
+
+Applied rules:
+ * FinalizePublicClassConstantRector (https://php.watch/versions/8.1/final-class-const)
+
+
+10) Mapper/NotesDataMapper.php:18
+
+    ---------- begin diff ----------
+@@ @@
+ class NotesDataMapper
+ {
+     /**
+-     * @var NoteDataInterfaceFactory
+-     */
+-    private $noteDataInterfaceFactory;
+-
+-    /**
+-     * @var DataObjectHelper
+-     */
+-    private $dataObjectHelper;
+-
+-    /**
+      * @param NoteDataInterfaceFactory $noteDataInterfaceFactory
+-     * @param DataObjectHelper $dataObjectHelper
+      */
+-    public function __construct(
+-        NoteDataInterfaceFactory $noteDataInterfaceFactory,
+-        DataObjectHelper $dataObjectHelper
+-    ) {
+-        $this->noteDataInterfaceFactory = $noteDataInterfaceFactory;
+-        $this->dataObjectHelper = $dataObjectHelper;
++    public function __construct(private readonly NoteDataInterfaceFactory $noteDataInterfaceFactory, private readonly DataObjectHelper $dataObjectHelper)
++    {
+     }
+
+     /**
+      * Map data models
+      *
+-     * @param NoteCollection $noteCollection
+      * @return NoteDataInterface[]
+      */
+     public function map(NoteCollection $noteCollection): array
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+11) Mapper/NoteDataPostMapper.php:14
+
+    ---------- begin diff ----------
+@@ @@
+ class NoteDataPostMapper
+ {
+     /**
+-     * @var NoteDataInterfaceFactory
+-     */
+-    private $noteInterfaceFactory;
+-
+-    /**
+-     * @var DateTime
+-     */
+-    private $dateTime;
+-
+-    /**
+-     * @var Session
+-     */
+-    private $customerSession;
+-
+-    /**
+-     * @var RequestInterface
+-     */
+-    private $request;
+-
+-    /**
+      * @param NoteDataInterfaceFactory $noteInterfaceFactory
+-     * @param DateTime $dateTime
+-     * @param Session $customerSession
+-     * @param RequestInterface $request
+      */
+-    public function __construct(
+-        NoteDataInterfaceFactory $noteInterfaceFactory,
+-        DateTime $dateTime,
+-        Session $customerSession,
+-        RequestInterface $request
+-    ) {
+-        $this->noteInterfaceFactory = $noteInterfaceFactory;
+-        $this->dateTime = $dateTime;
+-        $this->customerSession = $customerSession;
+-        $this->request = $request;
++    public function __construct(private readonly NoteDataInterfaceFactory $noteInterfaceFactory, private readonly DateTime $dateTime, private readonly Session $customerSession, private readonly RequestInterface $request)
++    {
+     }
+
+     /**
+      * Map data model
+-     *
+-     * @return NoteDataInterface
+      */
+     public function map(): NoteDataInterface
+     {
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+12) GraphQl/Resolver/CustomerNotesResolver.php:18
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class CustomerNotesResolver implements ResolverInterface
+ {
+-    /**
+-     * @var SearchCriteriaBuilder
+-     */
+-    private $searchCriteriaBuilder;
+-
+-    /**
+-     * @var GetNotesListInterface
+-     */
+-    private $getNotesList;
+-
+-    /**
+-     * @var FilterBuilder
+-     */
+-    private $filterBuilder;
+-
+-    /**
+-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+-     * @param GetNotesListInterface $getNotesList
+-     * @param FilterBuilder $filterBuilder
+-     */
+-    public function __construct(
+-        SearchCriteriaBuilder $searchCriteriaBuilder,
+-        GetNotesListInterface $getNotesList,
+-        FilterBuilder $filterBuilder
+-    ) {
+-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+-        $this->getNotesList = $getNotesList;
+-        $this->filterBuilder = $filterBuilder;
++    public function __construct(private readonly SearchCriteriaBuilder $searchCriteriaBuilder, private readonly GetNotesListInterface $getNotesList, private readonly FilterBuilder $filterBuilder)
++    {
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+13) Controller/Index/Post.php:21
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class Post extends Index
+ {
+-    /**
+-     * @var DataPersistorInterface
+-     */
+-    private $dataPersistor;
++    private readonly \Magento\Framework\App\Action\Context $context;
+
+     /**
+-     * @var Context
+-     */
+-    private $context;
+-
+-    /**
+-     * @var MailInterface
+-     */
+-    private $mail;
+-
+-    /**
+-     * @var LoggerInterface
+-     */
+-    private $logger;
+-
+-    /**
+-     * @var ProcessNoteService
+-     */
+-    private $noteProcessor;
+-
+-    /**
+      * @param Context $context
+      * @param ConfigInterface $contactsConfig
+      * @param MailInterface $mail
+@@ @@
+     public function __construct(
+         Context $context,
+         ConfigInterface $contactsConfig,
+-        MailInterface $mail,
+-        DataPersistorInterface $dataPersistor,
+-        LoggerInterface $logger,
+-        ProcessNoteService $noteProcessor
++        private readonly MailInterface $mail,
++        private readonly DataPersistorInterface $dataPersistor,
++        private readonly LoggerInterface $logger,
++        private readonly ProcessNoteService $noteProcessor
+     ) {
+         parent::__construct($context, $contactsConfig);
+         $this->context = $context;
+-        $this->mail = $mail;
+-        $this->dataPersistor = $dataPersistor;
+-        $this->logger = $logger;
+-        $this->noteProcessor = $noteProcessor;
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * TypedPropertyRector (https://wiki.php.net/rfc/typed_properties_v2#proposal)
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+14) Controller/Adminhtml/Note/View.php:22
+
+    ---------- begin diff ----------
+@@ @@
+     /**
+      * @see _isAllowed()
+      */
+-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
++    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
+
+     /**
+-     * @var GetNoteByIdInterface
+-     */
+-    private $getNoteById;
+-
+-    /**
+      * @param Action\Context $context
+      * @param GetNoteByIdInterface $getNoteById
+      */
+     public function __construct(
+         Action\Context $context,
+-        GetNoteByIdInterface $getNoteById
++        private readonly GetNoteByIdInterface $getNoteById
+     ) {
+         parent::__construct($context);
+-        $this->getNoteById = $getNoteById;
+     }
+
+     /**
+@@ @@
+             $result->getConfig()
+                 ->getTitle()
+                 ->prepend(__('View Note from %name', ['name' => $note->getContactName()]));
+-        } catch (NoSuchEntityException $e) {
++        } catch (NoSuchEntityException) {
+             /** @var Redirect $result */
+             $result = $this->resultRedirectFactory->create();
+             $this->messageManager->addErrorMessage(
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveUnusedVariableInCatchRector (https://wiki.php.net/rfc/non-capturing_catches)
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * FinalizePublicClassConstantRector (https://php.watch/versions/8.1/final-class-const)
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+15) Controller/Adminhtml/Note/MassDelete.php:21
+
+    ---------- begin diff ----------
+@@ @@
+     /**
+      * @see _isAllowed()
+      */
+-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
++    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
+
+     /**
+-     * @var Filter
+-     */
+-    private $massActionFilter;
+-
+-    /**
+-     * @var DeleteNotesInterface
+-     */
+-    private $notesDelete;
+-
+-    /**
+-     * @var NotesDataMapper
+-     */
+-    private $notesDataMapper;
+-
+-    /**
+-     * @var NoteCollectionFactory
+-     */
+-    private $noteCollectionFactory;
+-
+-    /**
+      * @param Context $context
+      * @param DeleteNotesInterface $notesDelete
+      * @param Filter $massActionFilter
+@@ @@
+      */
+     public function __construct(
+         Context $context,
+-        DeleteNotesInterface $notesDelete,
+-        Filter $massActionFilter,
+-        NotesDataMapper $notesDataMapper,
+-        NoteCollectionFactory $noteCollectionFactory
++        private readonly DeleteNotesInterface $notesDelete,
++        private readonly Filter $massActionFilter,
++        private readonly NotesDataMapper $notesDataMapper,
++        private readonly NoteCollectionFactory $noteCollectionFactory
+     ) {
+         parent::__construct($context);
+-        $this->massActionFilter = $massActionFilter;
+-        $this->notesDelete = $notesDelete;
+-        $this->notesDataMapper = $notesDataMapper;
+-        $this->noteCollectionFactory = $noteCollectionFactory;
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * FinalizePublicClassConstantRector (https://php.watch/versions/8.1/final-class-const)
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+16) Controller/Adminhtml/Note/Delete.php:19
+
+    ---------- begin diff ----------
+@@ @@
+     /**
+      * @see _isAllowed()
+      */
+-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
++    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
+
+     /**
+-     * @var GetNoteByIdInterface
+-     */
+-    private $getNotesList;
+-
+-    /**
+-     * @var DeleteNotesInterface
+-     */
+-    private $notesDelete;
+-
+-    /**
+      * Delete constructor.
+      * @param Action\Context $context
+      * @param GetNoteByIdInterface $getNotesList
+@@ @@
+      */
+     public function __construct(
+         Action\Context $context,
+-        GetNoteByIdInterface $getNotesList,
+-        DeleteNotesInterface $notesDelete
++        private readonly GetNoteByIdInterface $getNotesList,
++        private readonly DeleteNotesInterface $notesDelete
+     ) {
+         parent::__construct($context);
+-        $this->getNotesList = $getNotesList;
+-        $this->notesDelete = $notesDelete;
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * FinalizePublicClassConstantRector (https://php.watch/versions/8.1/final-class-const)
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+17) Controller/Adminhtml/Index/Index.php:15
+
+    ---------- begin diff ----------
+@@ @@
+     /**
+      * @see _isAllowed()
+      */
+-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
++    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
+
+     /**
+      * @inheritdoc
+    ----------- end diff -----------
+
+Applied rules:
+ * FinalizePublicClassConstantRector (https://php.watch/versions/8.1/final-class-const)
+
+
+18) Command/SaveNotesCommand.php:16
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class SaveNotesCommand implements SaveNotesInterface
+ {
+-    /**
+-     * @var SaveNotes
+-     */
+-    private $saveMultiple;
+-
+-    /**
+-     * @var LoggerInterface
+-     */
+-    private $logger;
+-
+-    /**
+-     * @param SaveNotes $saveMultiple
+-     * @param LoggerInterface $logger
+-     */
+-    public function __construct(
+-        SaveNotes $saveMultiple,
+-        LoggerInterface $logger
+-    ) {
+-        $this->saveMultiple = $saveMultiple;
+-        $this->logger = $logger;
++    public function __construct(private readonly SaveNotes $saveMultiple, private readonly LoggerInterface $logger)
++    {
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+19) Command/Resource/SaveNotes.php:16
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class SaveNotes
+ {
+-    /**
+-     * @var ResourceConnection
+-     */
+-    private $resourceConnection;
+-
+-    /**
+-     * @var ValidateNote
+-     */
+-    private $validateNote;
+-
+-    /**
+-     * @param ResourceConnection $resourceConnection
+-     * @param ValidateNote $validateNote
+-     */
+-    public function __construct(
+-        ResourceConnection $resourceConnection,
+-        ValidateNote $validateNote
+-    ) {
+-        $this->resourceConnection = $resourceConnection;
+-        $this->validateNote = $validateNote;
++    public function __construct(private readonly ResourceConnection $resourceConnection, private readonly ValidateNote $validateNote)
++    {
+     }
+
+     /**
+@@ @@
+      * Multiple save notes
+      *
+      * @param NoteDataInterface[] $notes
+-     * @return void
+      * @throws LocalizedException
+      */
+     public function execute(array $notes): void
+@@ @@
+         $connection->query($insertSql, $bind);
+     }
+
+-    /**
+-     * @param array $columns
+-     * @return string
+-     */
+     private function buildColumnsSqlPart(array $columns): string
+     {
+         $connection = $this->resourceConnection->getConnection();
+-        $processedColumns = array_map([$connection, 'quoteIdentifier'], $columns);
++        $processedColumns = array_map($connection->quoteIdentifier(...), $columns);
+         $sql = implode(', ', $processedColumns);
+         return $sql;
+     }
+@@ @@
+
+     /**
+      * @param NoteDataInterface[] $notes
+-     * @return string
+      */
+     private function buildValuesSqlPart(array $notes): string
+     {
+@@ @@
+
+     /**
+      * @param NoteDataInterface[] $notes
+-     * @return array
+      * @throws LocalizedException
+      */
+     private function getSqlBindData(array $notes): array
+@@ @@
+                 $note->getEmail(),
+                 $note->getCustomerId(),
+                 $note->getFormId(),
+-                json_encode($note->getData())
++                json_encode($note->getData(), JSON_THROW_ON_ERROR)
+             ]);
+         }
+         return $bind;
+     }
+
+-    /**
+-     * @param array $fields
+-     * @return string
+-     */
+     private function buildOnDuplicateSqlPart(array $fields): string
+     {
+         $connection = $this->resourceConnection->getConnection();
+    ----------- end diff -----------
+
+Applied rules:
+ * JsonThrowOnErrorRector (http://wiki.php.net/rfc/json_throw_on_error)
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * FirstClassCallableRector (https://php.watch/versions/8.1/first-class-callable-syntax)
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+20) Command/Resource/DeleteNotes.php:14
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class DeleteNotes
+ {
+-    /**
+-     * @var ResourceConnection
+-     */
+-    private $resourceConnection;
+-
+-    /**
+-     * @param ResourceConnection $resourceConnection
+-     */
+-    public function __construct(
+-        ResourceConnection $resourceConnection
+-    ) {
+-        $this->resourceConnection = $resourceConnection;
++    public function __construct(private readonly ResourceConnection $resourceConnection)
++    {
+     }
+
+     /**
+@@ @@
+      * Multiple delete notes
+      *
+      * @param NoteDataInterface[] $notes
+-     * @return void
+      */
+     public function execute(array $notes): void
+     {
+@@ @@
+
+     /**
+      * @param NoteDataInterface[] $notes
+-     * @return string
+      */
+     private function buildWhereSqlPart(array $notes): string
+     {
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+21) Command/DeleteNotesCommand.php:16
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class DeleteNotesCommand implements DeleteNotesInterface
+ {
+-    /**
+-     * @var LoggerInterface
+-     */
+-    private $logger;
+-
+-    /**
+-     * @var DeleteNotes
+-     */
+-    private $deleteNotes;
+-
+-    /**
+-     * @param LoggerInterface $logger
+-     * @param DeleteNotes $deleteNotes
+-     */
+-    public function __construct(
+-        LoggerInterface $logger,
+-        DeleteNotes $deleteNotes
+-    ) {
+-        $this->logger = $logger;
+-        $this->deleteNotes = $deleteNotes;
++    public function __construct(private readonly LoggerInterface $logger, private readonly DeleteNotes $deleteNotes)
++    {
+     }
+
+     /**
+    ----------- end diff -----------
+
+Applied rules:
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+22) Block/Adminhtml/Note/View/DeleteButton.php:17
+
+    ---------- begin diff ----------
+@@ @@
+  */
+ class DeleteButton implements ButtonProviderInterface
+ {
+-    /**
+-     * @var GetNoteByIdInterface
+-     */
+-    protected $getNoteById;
+-
+-    /**
+-     * @var RequestInterface
+-     */
+-    private $request;
+-
+-    /**
+-     * @var UrlInterface
+-     */
+-    private $url;
+-
+-    /**
+-     * @param GetNoteByIdInterface $getNoteById
+-     * @param RequestInterface $request
+-     * @param UrlInterface $url
+-     */
+-    public function __construct(
+-        GetNoteByIdInterface $getNoteById,
+-        RequestInterface $request,
+-        UrlInterface $url
+-    ) {
+-        $this->getNoteById = $getNoteById;
+-        $this->request = $request;
+-        $this->url = $url;
++    public function __construct(protected GetNoteByIdInterface $getNoteById, private readonly RequestInterface $request, private readonly UrlInterface $url)
++    {
+     }
+
+     /**
+@@ @@
+         return $data;
+     }
+
+-    /**
+-     * @return string
+-     */
+     private function getDeleteUrl(): string
+     {
+         return $this->getUrl('*/*/delete', ['note_id' => $this->getNoteId()]);
+@@ @@
+
+     /**
+      * Return note Id
+-     *
+-     * @return int|null
+      */
+     private function getNoteId(): ?int
+     {
+@@ @@
+             try {
+                 $note = $this->getNoteById->execute($noteId);
+                 return $note->getNoteId();
+-            } catch (NoSuchEntityException $e) {
++            } catch (NoSuchEntityException) {
+                 return null;
+             }
+         }
+@@ @@
+
+     /**
+      * Generate url by route and parameters
+-     *
+-     * @param   string $route
+-     * @param   array $params
+-     * @return  string
+      */
+     private function getUrl(string $route = '', array $params = []): string
+     {
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveUnusedVariableInCatchRector (https://wiki.php.net/rfc/non-capturing_catches)
+ * ClassPropertyAssignToConstructorPromotionRector (https://wiki.php.net/rfc/constructor_promotion https://github.com/php/php-src/pull/5291)
+ * MixedTypeRector
+ * UnionTypesRector
+ * ReadOnlyPropertyRector (https://wiki.php.net/rfc/readonly_properties_v2)
+
+
+23) Api/Query/GetNotesListInterface.php:15
+
+    ---------- begin diff ----------
+@@ @@
+ {
+     /**
+      * Find Notes by SearchCriteria
+-     *
+-     * @param SearchCriteriaInterface $searchCriteria
+-     * @return SearchResultsInterface
+      */
+     public function execute(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
+ }
+    ----------- end diff -----------
+
+Applied rules:
+ * UnionTypesRector
+
+
+24) Api/Query/GetNoteByIdInterface.php:15
+
+    ---------- begin diff ----------
+@@ @@
+ interface GetNoteByIdInterface
+ {
+     /**
+-     * @param int $noteId
+-     * @return NoteDataInterface
+      * @throws NoSuchEntityException
+      */
+     public function execute(int $noteId): NoteDataInterface;
+    ----------- end diff -----------
+
+Applied rules:
+ * UnionTypesRector
+
+
+25) Api/Data/NoteDataInterface.php:14
+
+    ---------- begin diff ----------
+@@ @@
+     /**#@+
+      * Constants for keys of data array. Identical to the name of the getter in snake case
+      */
+-    const NOTE_ID = 'note_id';
+-    const CONTACT_NAME = 'contact_name';
+-    const EMAIL = 'email';
+-    const MESSAGE = 'message';
+-    const PHONE = 'phone';
+-    const CREATED_DATE = 'created_date';
+-    const CUSTOMER_ID = 'customer_id';
+-    const FORM_ID = 'form_id';
+-    const FORM_DATA = 'form_data';
++    public const NOTE_ID = 'note_id';
++    public const CONTACT_NAME = 'contact_name';
++    public const EMAIL = 'email';
++    public const MESSAGE = 'message';
++    public const PHONE = 'phone';
++    public const CREATED_DATE = 'created_date';
++    public const CUSTOMER_ID = 'customer_id';
++    public const FORM_ID = 'form_id';
++    public const FORM_DATA = 'form_data';
+     /**#@-*/
+-
+     /**
+      * Get note id
+-     *
+-     * @return null|int
+      */
+     public function getNoteId(): ?int;
+
+     /**
+      * Set note id
+-     *
+-     * @param int $noteId
+-     * @return void
+      */
+     public function setNoteId(int $noteId): void;
+
+     /**
+      * Get note email
+-     *
+-     * @return null|string
+      */
+     public function getEmail(): ?string;
+
+     /**
+      * Set note email
+-     *
+-     * @param string $email
+-     * @return void
+      */
+     public function setEmail(string $email): void;
+
+     /**
+      * Get note contact name
+-     *
+-     * @return null|string
+      */
+     public function getContactName(): ?string;
+
+     /**
+      * Set note contact name
+-     *
+-     * @param string $contactName
+-     * @return void
+      */
+     public function setContactName(string $contactName): void;
+
+     /**
+      * Get note message
+-     *
+-     * @return null|string
+      */
+     public function getMessage(): ?string;
+
+     /**
+      * Set note message
+-     *
+-     * @param string $message
+-     * @return void
+      */
+     public function setMessage(string $message): void;
+
+     /**
+      * Get note phone number
+-     *
+-     * @return null|string
+      */
+     public function getPhone(): ?string;
+
+     /**
+      * Set note phone number
+-     *
+-     * @param string|null $phone
+-     * @return void
+      */
+     public function setPhone(?string $phone):void;
+
+     /**
+      * Get created date
+-     *
+-     * @return null|string
+      */
+     public function getCreatedDate(): ?string;
+
+     /**
+      * Set created date
+-     *
+-     * @param string $createdDate
+-     * @return void
+      */
+     public function setCreatedDate(string $createdDate): void;
+
+     /**
+      * Get form id
+-     *
+-     * @return null|string
+      */
+     public function getFormId(): ?string;
+
+     /**
+      * Set form id
+-     *
+-     * @param string $formId
+-     * @return void
+      */
+     public function setFormId(string $formId): void;
+
+     /**
+      * Get form id
+-     *
+-     * @return null|string
+      */
+     public function getFormData(): ?string;
+
+     /**
+      * Set form id
+-     *
+-     * @param string $formId
+-     * @return void
+      */
+     public function setFormData(string $formId): void;
+
+@@ @@
+
+     /**
+      * Get customer id
+-     *
+-     * @return int|null
+      */
+     public function getCustomerId(): ?int;
+
+     /**
+      * Set customer id
+-     *
+-     * @param int|null $customerId
+-     * @return void
+      */
+     public function setCustomerId(?int $customerId): void;
+ }
+    ----------- end diff -----------
+
+Applied rules:
+ * PublicConstantVisibilityRector (https://wiki.php.net/rfc/class_const_visibility)
+ * UnionTypesRector
+
+
+26) Api/Command/SaveNotesInterface.php:16
+
+    ---------- begin diff ----------
+@@ @@
+      * Save Multiple Note data
+      *
+      * @param NoteDataInterface[] $notes
+-     * @return void
+      * @throws \Magento\Framework\Exception\InputException
+      * @throws \Magento\Framework\Validation\ValidationException
+      * @throws \Magento\Framework\Exception\CouldNotSaveException
+    ----------- end diff -----------
+
+Applied rules:
+ * UnionTypesRector
+
+
+27) Api/Command/DeleteNotesInterface.php:16
+
+    ---------- begin diff ----------
+@@ @@
+      * Delete Multiple Note
+      *
+      * @param NoteDataInterface[] $notes
+-     * @return void
+      * @throws \Magento\Framework\Exception\InputException
+      * @throws \Magento\Framework\Exception\CouldNotSaveException
+      */
+    ----------- end diff -----------
+
+Applied rules:
+ * UnionTypesRector
+
+
+ [OK] 27 files would have changed (dry-run) by Rector                                                                   
+

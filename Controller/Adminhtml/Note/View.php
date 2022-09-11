@@ -23,12 +23,7 @@ class View extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
-
-    /**
-     * @var GetNoteByIdInterface
-     */
-    private $getNoteById;
+    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
 
     /**
      * @param Action\Context $context
@@ -36,10 +31,9 @@ class View extends Action
      */
     public function __construct(
         Action\Context $context,
-        GetNoteByIdInterface $getNoteById
+        private readonly GetNoteByIdInterface $getNoteById
     ) {
         parent::__construct($context);
-        $this->getNoteById = $getNoteById;
     }
 
     /**
@@ -58,7 +52,7 @@ class View extends Action
             $result->getConfig()
                 ->getTitle()
                 ->prepend(__('View Note from %name', ['name' => $note->getContactName()]));
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             /** @var Redirect $result */
             $result = $this->resultRedirectFactory->create();
             $this->messageManager->addErrorMessage(

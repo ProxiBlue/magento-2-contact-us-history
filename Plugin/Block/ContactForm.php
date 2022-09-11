@@ -10,12 +10,8 @@ use \Magento\Framework\App\RequestInterface;
 class ContactForm
 {
 
-    protected $request;
-
-    public function __construct(
-        RequestInterface $request
-    ) {
-       $this->request = $request;
+    public function __construct(protected RequestInterface $request)
+    {
     }
 
     public function beforeSetTemplate(\Magento\Contact\Block\ContactForm $subject, $param)

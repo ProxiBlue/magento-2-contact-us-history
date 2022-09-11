@@ -20,17 +20,7 @@ class Delete extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
-
-    /**
-     * @var GetNoteByIdInterface
-     */
-    private $getNotesList;
-
-    /**
-     * @var DeleteNotesInterface
-     */
-    private $notesDelete;
+    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
 
     /**
      * Delete constructor.
@@ -40,12 +30,10 @@ class Delete extends Action
      */
     public function __construct(
         Action\Context $context,
-        GetNoteByIdInterface $getNotesList,
-        DeleteNotesInterface $notesDelete
+        private readonly GetNoteByIdInterface $getNotesList,
+        private readonly DeleteNotesInterface $notesDelete
     ) {
         parent::__construct($context);
-        $this->getNotesList = $getNotesList;
-        $this->notesDelete = $notesDelete;
     }
 
     /**

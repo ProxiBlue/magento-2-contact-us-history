@@ -22,30 +22,7 @@ use VitaliyBoyko\ContactUsHistory\Service\ProcessNoteService;
  */
 class Post extends Index
 {
-    /**
-     * @var DataPersistorInterface
-     */
-    private $dataPersistor;
-
-    /**
-     * @var Context
-     */
-    private $context;
-
-    /**
-     * @var MailInterface
-     */
-    private $mail;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var ProcessNoteService
-     */
-    private $noteProcessor;
+    private readonly \Magento\Framework\App\Action\Context $context;
 
     /**
      * @param Context $context
@@ -58,17 +35,13 @@ class Post extends Index
     public function __construct(
         Context $context,
         ConfigInterface $contactsConfig,
-        MailInterface $mail,
-        DataPersistorInterface $dataPersistor,
-        LoggerInterface $logger,
-        ProcessNoteService $noteProcessor
+        private readonly MailInterface $mail,
+        private readonly DataPersistorInterface $dataPersistor,
+        private readonly LoggerInterface $logger,
+        private readonly ProcessNoteService $noteProcessor
     ) {
         parent::__construct($context, $contactsConfig);
         $this->context = $context;
-        $this->mail = $mail;
-        $this->dataPersistor = $dataPersistor;
-        $this->logger = $logger;
-        $this->noteProcessor = $noteProcessor;
     }
 
     /**

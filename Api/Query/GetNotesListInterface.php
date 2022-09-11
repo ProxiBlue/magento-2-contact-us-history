@@ -16,9 +16,6 @@ interface GetNotesListInterface
 {
     /**
      * Find Notes by SearchCriteria
-     *
-     * @param SearchCriteriaInterface $searchCriteria
-     * @return SearchResultsInterface
      */
     public function execute(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
 }

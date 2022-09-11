@@ -19,31 +19,15 @@ use VitaliyBoyko\ContactUsHistory\Model\ResourceModel\Note\NoteCollection;
 class NotesDataMapper
 {
     /**
-     * @var NoteDataInterfaceFactory
-     */
-    private $noteDataInterfaceFactory;
-
-    /**
-     * @var DataObjectHelper
-     */
-    private $dataObjectHelper;
-
-    /**
      * @param NoteDataInterfaceFactory $noteDataInterfaceFactory
-     * @param DataObjectHelper $dataObjectHelper
      */
-    public function __construct(
-        NoteDataInterfaceFactory $noteDataInterfaceFactory,
-        DataObjectHelper $dataObjectHelper
-    ) {
-        $this->noteDataInterfaceFactory = $noteDataInterfaceFactory;
-        $this->dataObjectHelper = $dataObjectHelper;
+    public function __construct(private readonly NoteDataInterfaceFactory $noteDataInterfaceFactory, private readonly DataObjectHelper $dataObjectHelper)
+    {
     }
 
     /**
      * Map data models
      *
-     * @param NoteCollection $noteCollection
      * @return NoteDataInterface[]
      */
     public function map(NoteCollection $noteCollection): array

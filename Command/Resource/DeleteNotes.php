@@ -15,25 +15,14 @@ use VitaliyBoyko\ContactUsHistory\Model\ResourceModel\NoteResource;
  */
 class DeleteNotes
 {
-    /**
-     * @var ResourceConnection
-     */
-    private $resourceConnection;
-
-    /**
-     * @param ResourceConnection $resourceConnection
-     */
-    public function __construct(
-        ResourceConnection $resourceConnection
-    ) {
-        $this->resourceConnection = $resourceConnection;
+    public function __construct(private readonly ResourceConnection $resourceConnection)
+    {
     }
 
     /**
      * Multiple delete notes
      *
      * @param NoteDataInterface[] $notes
-     * @return void
      */
     public function execute(array $notes): void
     {
@@ -49,7 +38,6 @@ class DeleteNotes
 
     /**
      * @param NoteDataInterface[] $notes
-     * @return string
      */
     private function buildWhereSqlPart(array $notes): string
     {

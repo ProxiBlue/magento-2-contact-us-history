@@ -18,34 +18,8 @@ use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
  */
 class DeleteButton implements ButtonProviderInterface
 {
-    /**
-     * @var GetNoteByIdInterface
-     */
-    protected $getNoteById;
-
-    /**
-     * @var RequestInterface
-     */
-    private $request;
-
-    /**
-     * @var UrlInterface
-     */
-    private $url;
-
-    /**
-     * @param GetNoteByIdInterface $getNoteById
-     * @param RequestInterface $request
-     * @param UrlInterface $url
-     */
-    public function __construct(
-        GetNoteByIdInterface $getNoteById,
-        RequestInterface $request,
-        UrlInterface $url
-    ) {
-        $this->getNoteById = $getNoteById;
-        $this->request = $request;
-        $this->url = $url;
+    public function __construct(protected GetNoteByIdInterface $getNoteById, private readonly RequestInterface $request, private readonly UrlInterface $url)
+    {
     }
 
     /**
@@ -69,9 +43,6 @@ class DeleteButton implements ButtonProviderInterface
         return $data;
     }
 
-    /**
-     * @return string
-     */
     private function getDeleteUrl(): string
     {
         return $this->getUrl('*/*/delete', ['note_id' => $this->getNoteId()]);
@@ -79,8 +50,6 @@ class DeleteButton implements ButtonProviderInterface
 
     /**
      * Return note Id
-     *
-     * @return int|null
      */
     private function getNoteId(): ?int
     {
@@ -90,7 +59,7 @@ class DeleteButton implements ButtonProviderInterface
             try {
                 $note = $this->getNoteById->execute($noteId);
                 return $note->getNoteId();
-            } catch (NoSuchEntityException $e) {
+            } catch (NoSuchEntityException) {
                 return null;
             }
         }
@@ -100,10 +69,6 @@ class DeleteButton implements ButtonProviderInterface
 
     /**
      * Generate url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
      */
     private function getUrl(string $route = '', array $params = []): string
     {
