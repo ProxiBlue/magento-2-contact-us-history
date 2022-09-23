@@ -43,10 +43,11 @@ class NoteProcessorAdminNotificationPlugin
     public function afterExecute(ProcessNoteService $subject)
     {
         $customerName = $this->request->getParam('name');
-
-        $this->notifier->addNotice(
-            __('New note from contact form'),
-            sprintf(__('Customer %s left note in contact form'), $customerName)
-        );
+        if(!empty($customerName)) {
+            $this->notifier->addNotice(
+                __('New note from contact form'),
+                sprintf(__('Customer %s left note in contact form'), $customerName)
+            );
+        }
     }
 }
