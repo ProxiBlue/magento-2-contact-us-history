@@ -81,17 +81,18 @@ class Post extends Index
         if (!$this->isPostRequest()) {
             return $this->resultRedirectFactory->create()->setPath('*/*/');
         }
+        $params = $this->_request->getParams();
+        if(!isset($params['telephone_preferred'])) {
+            $params['telephone_preferred'] = 'No';
+        }
         try {
-            $params = $this->_request->getParams();
-            if(!isset($params['telephone_preferred'])) {
-                $params['telephone_preferred'] = 'No';
-            }
-            $params['form_data'] = $params;
+            // trap email send issue seperate so as to not block saving of request
             $this->sendEmail($params);
+        } catch (\Exception $e) {
+            $this->logger->critical($e);
+        }
+        try {
             $this->noteProcessor->execute();
-            $this->messageManager->addSuccessMessage(
-                __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
-            );
             $this->dataPersistor->clear('contact_us');
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -103,7 +104,22 @@ class Post extends Index
             );
             $this->dataPersistor->set('contact_us', $this->getRequest()->getParams());
         }
-        return $this->resultRedirectFactory->create()->setPath('contact/index');
+        if(isset($params['redirect_back_to'])) {
+            $this->messageManager->addSuccessMessage(
+                __('Thanks for the feedback. We\'ll respond to you very soon, if required.')
+            );
+            return $this->resultRedirectFactory->create()->setUrl(base64_decode($params['redirect_back_to']));
+        } elseif(isset($params['form_id']) && $params['form_id'] != 'contact'){
+            $this->messageManager->addSuccessMessage(
+                __('Your submission has been received. We\'ll respond to you very soon.')
+            );
+            return $this->resultRedirectFactory->create()->setPath('contact?form=' . $params['form_id']);
+        } else {
+            $this->messageManager->addSuccessMessage(
+                __('Thanks for contacting us. We\'ll respond to you very soon.')
+            );
+            return $this->resultRedirectFactory->create()->setPath('contact/index');
+        }
     }
 
     /**

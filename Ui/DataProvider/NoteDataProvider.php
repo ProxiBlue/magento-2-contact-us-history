@@ -53,7 +53,8 @@ class NoteDataProvider extends DataProvider
         SearchResultFactory $searchResultFactory,
         array $meta = [],
         array $data = []
-    ) {
+    )
+    {
         parent::__construct(
             $name,
             $primaryFieldName,
@@ -83,6 +84,22 @@ class NoteDataProvider extends DataProvider
             $searchCriteria,
             NoteDataInterface::NOTE_ID
         );
+        foreach ($searchResult->getItems() as $item) {
+            $formData = $item->getCustomAttribute('form_data');
+            $formDataValue = json_decode($formData->getValue());
+            if(is_object($formDataValue)) {
+                $formDataValue = (array)$formDataValue;
+                if(isset($formDataValue['form_data'])) {
+                    $formDataValue = $formDataValue['form_data'];
+                }
+                $textDisplay = '';
+                foreach ($formDataValue as $key => $dataValue) {
+                    $textDisplay .= $key . ': ' . $dataValue . "\n";
+                }
+                $formData->setValue($textDisplay);
+                $item->setCustomAttribute('form_data', $formData);
+            }
+        }
         return $searchResult;
     }
 }
