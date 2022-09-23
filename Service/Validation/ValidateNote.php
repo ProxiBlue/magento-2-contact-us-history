@@ -15,7 +15,6 @@ use VitaliyBoyko\ContactUsHistory\Api\Data\NoteDataInterface;
 class ValidateNote
 {
     /**
-     * @param NoteDataInterface $noteData
      * @throws LocalizedException
      */
     public function execute(NoteDataInterface $noteData)
@@ -26,7 +25,7 @@ class ValidateNote
         if (trim($noteData->getMessage()) === '') {
             throw new LocalizedException(__('Message is missing'));
         }
-        if (false === \strpos($noteData->getEmail(), '@')) {
+        if (!str_contains($noteData->getEmail(), '@')) {
             throw new LocalizedException(__('Invalid email address'));
         }
     }

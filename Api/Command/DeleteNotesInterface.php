@@ -17,7 +17,6 @@ interface DeleteNotesInterface
      * Delete Multiple Note
      *
      * @param NoteDataInterface[] $notes
-     * @return void
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */

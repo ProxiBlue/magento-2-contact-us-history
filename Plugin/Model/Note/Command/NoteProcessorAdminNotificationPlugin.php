@@ -15,29 +15,11 @@ use VitaliyBoyko\ContactUsHistory\Service\ProcessNoteService;
  */
 class NoteProcessorAdminNotificationPlugin
 {
-    /**
-     * @var NotifierPool
-     */
-    private $notifier;
-    /**
-     * @var RequestInterface
-     */
-    private $request;
-
-    /**
-     * @param NotifierPool $notifier
-     * @param RequestInterface $request
-     */
-    public function __construct(
-        NotifierPool $notifier,
-        RequestInterface $request
-    ) {
-        $this->notifier = $notifier;
-        $this->request = $request;
+    public function __construct(private readonly NotifierPool $notifier, private readonly RequestInterface $request)
+    {
     }
 
     /**
-     * @param ProcessNoteService $subject
      * @return void
      */
     public function afterExecute(ProcessNoteService $subject)

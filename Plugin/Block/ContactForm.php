@@ -10,19 +10,14 @@ use \Magento\Framework\App\RequestInterface;
 class ContactForm
 {
 
-    protected $request;
-
-    public function __construct(
-        RequestInterface $request
-    ) {
-       $this->request = $request;
+    public function __construct(protected RequestInterface $request)
+    {
     }
 
     /**
      * Set an alternative template to use in place of the default, based on url param: form
      * The mapping will be best presented with an admin config option
      *
-     * @param \Magento\Contact\Block\ContactForm $subject
      * @param $param
      * @return mixed|string
      */

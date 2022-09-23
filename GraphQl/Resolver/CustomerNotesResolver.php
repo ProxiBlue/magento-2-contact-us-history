@@ -19,34 +19,8 @@ use VitaliyBoyko\ContactUsHistory\Api\Query\GetNotesListInterface;
  */
 class CustomerNotesResolver implements ResolverInterface
 {
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
-    /**
-     * @var GetNotesListInterface
-     */
-    private $getNotesList;
-
-    /**
-     * @var FilterBuilder
-     */
-    private $filterBuilder;
-
-    /**
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param GetNotesListInterface $getNotesList
-     * @param FilterBuilder $filterBuilder
-     */
-    public function __construct(
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        GetNotesListInterface $getNotesList,
-        FilterBuilder $filterBuilder
-    ) {
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->getNotesList = $getNotesList;
-        $this->filterBuilder = $filterBuilder;
+    public function __construct(private readonly SearchCriteriaBuilder $searchCriteriaBuilder, private readonly GetNotesListInterface $getNotesList, private readonly FilterBuilder $filterBuilder)
+    {
     }
 
     /**

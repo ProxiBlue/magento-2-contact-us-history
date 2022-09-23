@@ -16,8 +16,6 @@ use VitaliyBoyko\ContactUsHistory\Api\Data\NoteDataInterface;
 interface GetNoteByIdInterface
 {
     /**
-     * @param int $noteId
-     * @return NoteDataInterface
      * @throws NoSuchEntityException
      */
     public function execute(int $noteId): NoteDataInterface;

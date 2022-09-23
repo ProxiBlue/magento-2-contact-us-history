@@ -18,26 +18,8 @@ use VitaliyBoyko\ContactUsHistory\Api\Query\GetNotesListInterface;
  */
 class GetNoteById implements GetNoteByIdInterface
 {
-    /**
-     * @var GetNotesListInterface
-     */
-    private $getNotesList;
-
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
-    /**
-     * @param GetNotesListInterface $getNotesList
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     */
-    public function __construct(
-        GetNotesListInterface $getNotesList,
-        SearchCriteriaBuilder $searchCriteriaBuilder
-    ) {
-        $this->getNotesList = $getNotesList;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+    public function __construct(private readonly GetNotesListInterface $getNotesList, private readonly SearchCriteriaBuilder $searchCriteriaBuilder)
+    {
     }
 
     /**

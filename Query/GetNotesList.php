@@ -20,42 +20,8 @@ use VitaliyBoyko\ContactUsHistory\Model\ResourceModel\Note\NoteCollectionFactory
  */
 class GetNotesList implements GetNotesListInterface
 {
-    /**
-     * @var CollectionProcessorInterface
-     */
-    private $collectionProcessor;
-
-    /**
-     * @var NoteCollectionFactory
-     */
-    private $noteCollectionFactory;
-
-    /**
-     * @var SearchResultsInterfaceFactory
-     */
-    private $searchResultsFactory;
-
-    /**
-     * @var NotesDataMapper
-     */
-    private $noteDataMapper;
-
-    /**
-     * @param CollectionProcessorInterface $collectionProcessor
-     * @param NoteCollectionFactory $noteCollectionFactory
-     * @param SearchResultsInterfaceFactory $searchResultsFactory
-     * @param NotesDataMapper $noteDataMapper
-     */
-    public function __construct(
-        CollectionProcessorInterface $collectionProcessor,
-        NoteCollectionFactory $noteCollectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory,
-        NotesDataMapper $noteDataMapper
-    ) {
-        $this->collectionProcessor = $collectionProcessor;
-        $this->noteDataMapper = $noteDataMapper;
-        $this->noteCollectionFactory = $noteCollectionFactory;
-        $this->searchResultsFactory = $searchResultsFactory;
+    public function __construct(private readonly CollectionProcessorInterface $collectionProcessor, private readonly NoteCollectionFactory $noteCollectionFactory, private readonly SearchResultsInterfaceFactory $searchResultsFactory, private readonly NotesDataMapper $noteDataMapper)
+    {
     }
 
     /**

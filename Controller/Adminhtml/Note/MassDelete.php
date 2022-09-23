@@ -22,47 +22,16 @@ class MassDelete extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
+    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
 
-    /**
-     * @var Filter
-     */
-    private $massActionFilter;
-
-    /**
-     * @var DeleteNotesInterface
-     */
-    private $notesDelete;
-
-    /**
-     * @var NotesDataMapper
-     */
-    private $notesDataMapper;
-
-    /**
-     * @var NoteCollectionFactory
-     */
-    private $noteCollectionFactory;
-
-    /**
-     * @param Context $context
-     * @param DeleteNotesInterface $notesDelete
-     * @param Filter $massActionFilter
-     * @param NotesDataMapper $notesDataMapper
-     * @param NoteCollectionFactory $noteCollectionFactory
-     */
     public function __construct(
         Context $context,
-        DeleteNotesInterface $notesDelete,
-        Filter $massActionFilter,
-        NotesDataMapper $notesDataMapper,
-        NoteCollectionFactory $noteCollectionFactory
+        private readonly DeleteNotesInterface $notesDelete,
+        private readonly Filter $massActionFilter,
+        private readonly NotesDataMapper $notesDataMapper,
+        private readonly NoteCollectionFactory $noteCollectionFactory
     ) {
         parent::__construct($context);
-        $this->massActionFilter = $massActionFilter;
-        $this->notesDelete = $notesDelete;
-        $this->notesDataMapper = $notesDataMapper;
-        $this->noteCollectionFactory = $noteCollectionFactory;
     }
 
     /**

@@ -15,47 +15,23 @@ class Mail extends \Magento\Contact\Model\Mail
 {
 
     /**
-     * @var ConfigInterface
-     */
-    private $contactsConfig;
-
-    /**
-     * @var TransportBuilder
-     */
-    private $transportBuilder;
-
-    /**
-     * @var StateInterface
-     */
-    private $inlineTranslation;
-
-    /**
      * @var StoreManagerInterface
      */
     private $storeManager;
 
-    protected $emailTemplate;
-
     /**
      * Initialize dependencies.
      *
-     * @param ConfigInterface $contactsConfig
-     * @param TransportBuilder $transportBuilder
-     * @param StateInterface $inlineTranslation
      * @param StoreManagerInterface|null $storeManager
      */
     public function __construct(
-        ConfigInterface $contactsConfig,
-        TransportBuilder $transportBuilder,
-        StateInterface $inlineTranslation,
+        private readonly ConfigInterface $contactsConfig,
+        private readonly TransportBuilder $transportBuilder,
+        private readonly StateInterface $inlineTranslation,
         StoreManagerInterface $storeManager = null,
-        BackendTemplate $emailTemplate
+        protected BackendTemplate $emailTemplate
     ) {
-        $this->contactsConfig = $contactsConfig;
-        $this->transportBuilder = $transportBuilder;
-        $this->inlineTranslation = $inlineTranslation;
         $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
-        $this->emailTemplate = $emailTemplate;
     }
 
 
@@ -63,7 +39,6 @@ class Mail extends \Magento\Contact\Model\Mail
      * Send email from contact form
      *
      * @param string $replyTo
-     * @param array $variables
      * @return void
      */
     public function send($replyTo, array $variables)

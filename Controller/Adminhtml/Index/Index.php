@@ -16,7 +16,7 @@ class Index extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
+    final const ADMIN_RESOURCE = 'VitaliyBoyko_ContactUsHistory::note';
 
     /**
      * @inheritdoc

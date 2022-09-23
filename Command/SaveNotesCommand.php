@@ -17,26 +17,8 @@ use VitaliyBoyko\ContactUsHistory\Command\Resource\SaveNotes;
  */
 class SaveNotesCommand implements SaveNotesInterface
 {
-    /**
-     * @var SaveNotes
-     */
-    private $saveMultiple;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @param SaveNotes $saveMultiple
-     * @param LoggerInterface $logger
-     */
-    public function __construct(
-        SaveNotes $saveMultiple,
-        LoggerInterface $logger
-    ) {
-        $this->saveMultiple = $saveMultiple;
-        $this->logger = $logger;
+    public function __construct(private readonly SaveNotes $saveMultiple, private readonly LoggerInterface $logger)
+    {
     }
 
     /**

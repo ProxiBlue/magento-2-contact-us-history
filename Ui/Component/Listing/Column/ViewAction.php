@@ -13,31 +13,17 @@ use Magento\Ui\Component\Listing\Columns\Column;
 
 class ViewAction extends Column
 {
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
-
-    /**
-     * @param ContextInterface $context
-     * @param UiComponentFactory $uiComponentFactory
-     * @param UrlInterface $urlBuilder
-     * @param array $components
-     * @param array $data
-     */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
-        UrlInterface $urlBuilder,
+        private readonly UrlInterface $urlBuilder,
         array $components = [],
         array $data = []
     ) {
-        $this->urlBuilder = $urlBuilder;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
     /**
-     * @param array $dataSource
      * @return array
      */
     public function prepareDataSource(array $dataSource)

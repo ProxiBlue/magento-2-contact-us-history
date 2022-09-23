@@ -14,7 +14,7 @@ class NoteResource extends AbstractDb
     /**
      * Table name
      */
-    const TABLE_NAME_NOTES = 'vb_contact_us_history';
+    final const TABLE_NAME_NOTES = 'vb_contact_us_history';
 
     /**
      * @inheritdoc

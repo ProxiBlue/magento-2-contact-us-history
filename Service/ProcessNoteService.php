@@ -14,32 +14,13 @@ use VitaliyBoyko\ContactUsHistory\Mapper\NoteDataPostMapper;
  */
 class ProcessNoteService
 {
-    /**
-     * @var SaveNotesInterface
-     */
-    private $notesSave;
-
-    /**
-     * @var NoteDataPostMapper
-     */
-    private $noteDataPostMapper;
-
-    /**
-     * @param SaveNotesInterface $notesSave
-     * @param NoteDataPostMapper $noteDataPostMapper
-     */
-    public function __construct(
-        SaveNotesInterface $notesSave,
-        NoteDataPostMapper $noteDataPostMapper
-    ) {
-        $this->notesSave = $notesSave;
-        $this->noteDataPostMapper = $noteDataPostMapper;
+    public function __construct(private readonly SaveNotesInterface $notesSave, private readonly NoteDataPostMapper $noteDataPostMapper)
+    {
     }
 
     /**
      * Save Note Post
      *
-     * @return void
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Validation\ValidationException

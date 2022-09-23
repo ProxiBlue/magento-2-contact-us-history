@@ -18,28 +18,7 @@ use Magento\Ui\DataProvider\SearchResultFactory;
 class NoteDataProvider extends DataProvider
 {
     /**
-     * @var GetNotesListInterface
-     */
-    private $getNotesList;
-
-    /**
-     * @var SearchResultFactory
-     */
-    private $searchResultFactory;
-
-    /**
      * NoteDataProvider constructor.
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
-     * @param ReportingInterface $reporting
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param RequestInterface $request
-     * @param FilterBuilder $filterBuilder
-     * @param GetNotesListInterface $getNotesList
-     * @param SearchResultFactory $searchResultFactory
-     * @param array $meta
-     * @param array $data
      */
     public function __construct(
         string $name,
@@ -49,8 +28,8 @@ class NoteDataProvider extends DataProvider
         SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
-        GetNotesListInterface $getNotesList,
-        SearchResultFactory $searchResultFactory,
+        private readonly GetNotesListInterface $getNotesList,
+        private readonly SearchResultFactory $searchResultFactory,
         array $meta = [],
         array $data = []
     )
@@ -66,8 +45,6 @@ class NoteDataProvider extends DataProvider
             $meta,
             $data
         );
-        $this->searchResultFactory = $searchResultFactory;
-        $this->getNotesList = $getNotesList;
     }
 
     /**
@@ -86,7 +63,7 @@ class NoteDataProvider extends DataProvider
         );
         foreach ($searchResult->getItems() as $item) {
             $formData = $item->getCustomAttribute('form_data');
-            $formDataValue = json_decode($formData->getValue());
+            $formDataValue = json_decode($formData->getValue(), null, 512, JSON_THROW_ON_ERROR);
             if(is_object($formDataValue)) {
                 $formDataValue = (array)$formDataValue;
                 if(isset($formDataValue['form_data'])) {

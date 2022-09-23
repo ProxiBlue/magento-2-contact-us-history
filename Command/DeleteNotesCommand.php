@@ -17,26 +17,8 @@ use VitaliyBoyko\ContactUsHistory\Command\Resource\DeleteNotes;
  */
 class DeleteNotesCommand implements DeleteNotesInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var DeleteNotes
-     */
-    private $deleteNotes;
-
-    /**
-     * @param LoggerInterface $logger
-     * @param DeleteNotes $deleteNotes
-     */
-    public function __construct(
-        LoggerInterface $logger,
-        DeleteNotes $deleteNotes
-    ) {
-        $this->logger = $logger;
-        $this->deleteNotes = $deleteNotes;
+    public function __construct(private readonly LoggerInterface $logger, private readonly DeleteNotes $deleteNotes)
+    {
     }
 
     /**
