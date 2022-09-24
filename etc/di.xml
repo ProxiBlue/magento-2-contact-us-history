@@ -17,11 +17,6 @@
     <preference for="VitaliyBoyko\ContactUsHistory\Api\Query\GetNoteByIdInterface" type="VitaliyBoyko\ContactUsHistory\Query\GetNoteById" />
     <preference for="VitaliyBoyko\ContactUsHistory\Api\Query\GetNotesListInterface" type="VitaliyBoyko\ContactUsHistory\Query\GetNotesList" />
 
-    <type name="VitaliyBoyko\ContactUsHistory\Service\ProcessNoteService">
-        <plugin name="admin_notify_about_new_note"
-                type="VitaliyBoyko\ContactUsHistory\Plugin\Model\Note\Command\NoteProcessorAdminNotificationPlugin"/>
-    </type>
-
     <type name="Magento\Contact\Block\ContactForm">
         <plugin name="vitaliyboyko_contact-us-history_block_form" type="VitaliyBoyko\ContactUsHistory\Plugin\Block\ContactForm"/>
     </type>
