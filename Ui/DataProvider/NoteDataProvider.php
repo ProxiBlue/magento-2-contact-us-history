@@ -32,8 +32,7 @@ class NoteDataProvider extends DataProvider
         private readonly SearchResultFactory $searchResultFactory,
         array $meta = [],
         array $data = []
-    )
-    {
+    ) {
         parent::__construct(
             $name,
             $primaryFieldName,
@@ -63,10 +62,14 @@ class NoteDataProvider extends DataProvider
         );
         foreach ($searchResult->getItems() as $item) {
             $formData = $item->getCustomAttribute('form_data');
-            $formDataValue = json_decode($formData->getValue(), null, 512, JSON_THROW_ON_ERROR);
-            if(is_object($formDataValue)) {
+            try {
+                $formDataValue = json_decode($formData->getValue(), null, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                $formDataValue = json_decode('{}', null, 512, JSON_THROW_ON_ERROR);
+            }
+            if (is_object($formDataValue)) {
                 $formDataValue = (array)$formDataValue;
-                if(isset($formDataValue['form_data'])) {
+                if (isset($formDataValue['form_data'])) {
                     $formDataValue = $formDataValue['form_data'];
                 }
                 $textDisplay = '';
